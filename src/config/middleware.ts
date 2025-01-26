@@ -9,7 +9,7 @@ export const errorMiddleware = (err: AppError, req: Request, res: Response, next
     const status = err.statusCode ?? 500;
     const message = err.message ?? 'Something went wrong';
 
-    res.status(status).json({
+    return res.status(status).json({
         message: message,
         status: status
     })
