@@ -1,10 +1,8 @@
 import { models, sequelize } from './db/index'
-import { EXERCISE_DIFFICULTY } from './utils/enums'
+import {EXERCISE_DIFFICULTY, USER_ROLE} from './utils/enums'
 
-const {
-	Exercise,
-	Program,
-} = models
+const {Exercise, Program, User} = models
+
 
 const seedDB = async () => {
 	await sequelize.sync({ force: true })
@@ -41,6 +39,22 @@ const seedDB = async () => {
 		name: 'Exercise 6',
 		difficulty: EXERCISE_DIFFICULTY.HARD,
 		programID: 2
+	}])
+
+	await User.bulkCreate([{
+		name: 'Matej',
+		surname: 'Kormanik',
+        nickName: 'kormamat',
+        email: 'kormamat@example.com',
+        age: 25,
+        role: USER_ROLE.ADMIN
+	}, {
+		name: 'Ferko',
+		surname: 'Mrkvicka',
+		nickName: 'mrkva',
+		email: 'mrkva@example.com',
+		age: 30,
+		role: USER_ROLE.USER
 	}])
 }
 

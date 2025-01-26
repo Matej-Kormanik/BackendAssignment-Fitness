@@ -20,6 +20,9 @@ export default (sequelize: Sequelize) => {
             allowNull: false,
             autoIncrement: true
         },
+        name: {
+            type: DataTypes.STRING(200)
+        },
         surname: {
             type: DataTypes.STRING(200)
         },
