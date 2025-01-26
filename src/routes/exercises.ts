@@ -1,28 +1,15 @@
-import { Router, Request, Response, NextFunction } from 'express'
+import {Router} from 'express'
+import {createExercise, getAllExercises} from "../controllers/exercise-controller";
+import {authenticated, isAdmin} from "../config/middleware";
 
-import { models } from '../db'
 
 const router: Router = Router()
 
-const {
-	Exercise,
-	Program
-} = models
+
 
 export default () => {
-	router.get('/', async (_req: Request, res: Response, _next: NextFunction) => {
-		const exercises = await Exercise.findAll({
-			include: [{
-				model: Program,
-				as: 'program'
-			}]
-		})
-
-		return res.json({
-			data: exercises,
-			message: 'List of exercises'
-		})
-	})
+	router.get('/', getAllExercises)
+	router.post('/', authenticated, isAdmin, createExercise);
 
 	return router
 }
