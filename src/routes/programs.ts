@@ -9,12 +9,10 @@ import { models } from '../db'
 
 const router: Router = Router()
 
-const {
-	Program
-} = models
+const {Program} = models
 
 export default () => {
-	router.get('/', async (_req: Request, res: Response, _next: NextFunction) => {
+	router.get('/', async (req: Request, res: Response, next: NextFunction) => {
 		const programs = await Program.findAll()
 		return res.json({
 			data: programs,

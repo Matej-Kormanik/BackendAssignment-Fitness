@@ -8,6 +8,7 @@ export class UserModel extends DatabaseModel {
     surname: string
     nickName:string
     email: string
+    password: string
     age: number
     role: USER_ROLE
 }
@@ -31,6 +32,9 @@ export default (sequelize: Sequelize) => {
         },
         email: {
             type: DataTypes.STRING(200)
+        },
+        password: {
+            type: DataTypes.STRING(100)
         },
         age: {
             type: DataTypes.INTEGER
