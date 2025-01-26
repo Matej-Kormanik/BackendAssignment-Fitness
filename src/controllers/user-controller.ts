@@ -9,9 +9,37 @@ const { User } = models;
 
 export const getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
     const users = await User.findAll();
-    return res.json({
-        data: users,
+    return res.status(200).json({
+        users: users,
         message: 'List of users'
+    });
+}
+
+export const getUserDetail = async (req: Request, res: Response, next: NextFunction) => {
+    const user = await User.findByPk(req.params.userId);
+    if (!user) {
+        return next(new AppError('User not found', 404));
+    }
+    return res.status(200).json({
+        user: user
+    });
+}
+
+export const updateUser = async (req: Request, res: Response, next: NextFunction) => {
+    const user = await User.findByPk(req.params.userId);
+    if (!user) {
+        return next(new AppError('User not found', 404));
+    }
+    user.name = req.body.name?? user.name;
+    user.surname = req.body.surname?? user.surname;
+    user.nickName = req.body.nickName?? user.nickName;
+    user.age = req.body.age ?? user.age;
+    user.role = req.body.role?? user.role;
+    const updatedUser = await user.save();
+
+    return res.status(200).json({
+        user: updatedUser,
+        message: 'User updated successfully'
     });
 }
 
