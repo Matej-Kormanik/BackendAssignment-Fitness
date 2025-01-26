@@ -1,13 +1,8 @@
 /* eslint import/no-cycle: 0 */
 
-import {
-	Sequelize,
-	DataTypes,
-	Model
-} from 'sequelize'
+import {Sequelize, DataTypes} from 'sequelize'
 import { DatabaseModel } from '../types/db'
 import { ProgramModel } from './program'
-
 import { EXERCISE_DIFFICULTY } from '../utils/enums'
 
 export class ExerciseModel extends DatabaseModel {
