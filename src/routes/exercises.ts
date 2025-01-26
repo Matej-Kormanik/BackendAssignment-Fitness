@@ -1,15 +1,15 @@
 import {Router} from 'express'
-import {createExercise, getAllExercises} from "../controllers/exercise-controller";
+import {createExercise, deleteExercise, getAllExercises, updateExercise} from "../controllers/exercise-controller";
 import {authenticated, isAdmin} from "../config/middleware";
-
 
 const router: Router = Router()
 
 
-
 export default () => {
-	router.get('/', getAllExercises)
+	router.get('/', authenticated, isAdmin, getAllExercises);
 	router.post('/', authenticated, isAdmin, createExercise);
+	router.put('/:exerciseId', authenticated, isAdmin, updateExercise);
+	router.delete('/:exerciseId', authenticated, isAdmin, deleteExercise);
 
-	return router
+	return router;
 }
