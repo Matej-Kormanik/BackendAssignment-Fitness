@@ -39,7 +39,7 @@ export default (sequelize: Sequelize) => {
                 name: 'exerciseID',
                 allowNull: false
             },
-        })
+        }),
         (UserExerciseModel as any).belongsTo(models.User, {
             foreignKey: {
                 name: 'userID',

@@ -47,14 +47,16 @@ const seedDB = async () => {
         nickName: 'kormamat',
         email: 'kormamat@example.com',
         age: 25,
-        role: USER_ROLE.ADMIN
+        role: USER_ROLE.ADMIN,
+		password: '$2a$12$B7PYexaNIHOpZig7yV6VY.nFPupKulBuMzPJaQuvTFlDoyi0PvYFi'
 	}, {
 		name: 'Ferko',
 		surname: 'Mrkvicka',
 		nickName: 'mrkva',
 		email: 'mrkva@example.com',
 		age: 30,
-		role: USER_ROLE.USER
+		role: USER_ROLE.USER,
+		password: '$2a$12$B7PYexaNIHOpZig7yV6VY.nFPupKulBuMzPJaQuvTFlDoyi0PvYFi'
 	}])
 }
 

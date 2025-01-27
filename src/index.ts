@@ -6,6 +6,7 @@ import { sequelize } from './db'
 import ProgramRouter from './routes/programs'
 import ExerciseRouter from './routes/exercises'
 import UserRouter from './routes/users'
+import UserExerciseRouter from './routes/users-exercises'
 import {errorMiddleware} from "./config/middleware";
 
 const app = express()
@@ -15,6 +16,7 @@ app.use(bodyParser.json())
 app.use('/programs', ProgramRouter())
 app.use('/exercises', ExerciseRouter())
 app.use('/users', UserRouter())
+app.use('/my', UserExerciseRouter())
 app.use(errorMiddleware);
 
 const httpServer = http.createServer(app)

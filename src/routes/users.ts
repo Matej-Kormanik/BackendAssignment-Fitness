@@ -15,8 +15,8 @@ const router: Router = Router();
 export default () => {
 
     // USER APIs
-    router.get('/preview',authenticated, isUser, getAllUsersPreview) // authenticated, isUser,
-    router.get('/me', authenticated, isUser, getCurrentUserDetail) // authenticated, isUser,
+    router.get('/preview',authenticated, isUser, getAllUsersPreview)
+    router.get('/me', authenticated, isUser, getCurrentUserDetail)
 
 
     // ADMIN APIs
