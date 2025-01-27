@@ -1,7 +1,7 @@
 import {Router} from 'express';
 import {
     getAllUsers,
-    getAllUsersPreview,
+    getAllUsersPreview, getCurrentUserDetail,
     getUserDetail,
     login,
     registerNewUser,
@@ -16,6 +16,7 @@ export default () => {
 
     // USER APIs
     router.get('/preview',authenticated, isUser, getAllUsersPreview) // authenticated, isUser,
+    router.get('/me', authenticated, isUser, getCurrentUserDetail) // authenticated, isUser,
 
 
     // ADMIN APIs

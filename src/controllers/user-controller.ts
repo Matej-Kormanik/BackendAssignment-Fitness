@@ -51,6 +51,18 @@ export const getAllUsersPreview = async (req: Request, res: Response, next: Next
     return res.status(200).json({users});
 }
 
+export const getCurrentUserDetail = async (req: Request, res: Response, next: NextFunction) => {
+    const currentUser = await User.findOne({
+        where: {id: req.body.userId},
+        attributes: ['name', 'surname', 'age', 'nickName']
+    });
+    if (!currentUser) {
+        return next(new AppError('User not found', 404));
+    }
+
+    return res.status(200).json({currentUser});
+}
+
 /* --------------------------   PUBLIC CONTROLLERS    ------------------------------*/
 
 export const registerNewUser = async (req: Request, res: Response, next: NextFunction) => {
