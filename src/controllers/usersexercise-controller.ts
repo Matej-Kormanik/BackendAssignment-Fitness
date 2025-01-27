@@ -37,3 +37,16 @@ export const trackExercise = async (req: Request, res: Response, next: NextFunct
         message: 'User exercise updated successfully'
     });
 }
+
+export const getCompletedExercises = async (req: Request, res: Response, next: NextFunction) => {
+    const userId = req.body.userId;
+    const completedExercises = await UserExercise.findAll({
+        where: {userID: userId, completed: true},
+        include: [{model: Exercise, as: 'exercise'}]
+    })
+
+    return res.json({
+        data: completedExercises,
+        message: 'List of completed exercises'
+    })
+}
