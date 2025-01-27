@@ -3,10 +3,10 @@ import { models } from '../db';
 import bcrypt from 'bcryptjs';
 import AppError from "../types/custom";
 import jwt from 'jsonwebtoken';
-import {JWT_SECRET} from "../utils/constants";
+import {JWT_SECRET, SALT} from "../utils/constants";
 const { User } = models;
 
-
+/* --------------------------    ADMIN CONTROLLERS    ------------------------------*/
 export const getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
     const users = await User.findAll();
     return res.status(200).json({
@@ -43,8 +43,18 @@ export const updateUser = async (req: Request, res: Response, next: NextFunction
     });
 }
 
+
+/* --------------------------   USER CONTROLLERS    --------------------------------*/
+export const getAllUsersPreview = async (req: Request, res: Response, next: NextFunction) => {
+    const users = await User.findAll({attributes: ['id', 'nickName']});
+
+    return res.status(200).json({users});
+}
+
+/* --------------------------   PUBLIC CONTROLLERS    ------------------------------*/
+
 export const registerNewUser = async (req: Request, res: Response, next: NextFunction) => {
-    const password = await bcrypt.hash(req.body.password, 12);
+    const password = await bcrypt.hash(req.body.password, SALT);
     const savedUser = await User.create({
         ...req.body,
         password: password

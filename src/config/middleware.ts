@@ -42,3 +42,9 @@ export const isAdmin = (req: Request, res: Response, next: NextFunction) => {
     }
     next();
 }
+export const isUser = (req: Request, res: Response, next: NextFunction) => {
+    if (req.body.role !== USER_ROLE.USER.toString()) {
+        throw new AppError('Not authorized to perform this action', 403);
+    }
+    next();
+}
