@@ -6,11 +6,11 @@ const {UserExercise, Exercise} = models;
 
 
 
-export const trackExercise = async (req: Request, res: Response, next: NextFunction) => {
+export const completeExercise = async (req: Request, res: Response, next: NextFunction) => {
     const userId = req.body.userId;
     const exerciseId = req.params.exerciseId;
 
-    const usersExercise = await UserExercise.findOne({where: {exerciseID: exerciseId}});
+    const usersExercise = await UserExercise.findOne({where: {userID: userId, exerciseID: exerciseId}});
     if (!usersExercise) {
         const exercise = await Exercise.findByPk(exerciseId);
         if (!exercise) {
@@ -24,7 +24,7 @@ export const trackExercise = async (req: Request, res: Response, next: NextFunct
         });
         return res.status(201).json({
             exercise: createdUserExercise,
-            message: 'User exercise updated successfully'
+            message: 'User exercise completed'
         });
     }
 
@@ -35,6 +35,24 @@ export const trackExercise = async (req: Request, res: Response, next: NextFunct
     return res.status(200).json({
         exercise: savedUserExercise,
         message: 'User exercise updated successfully'
+    });
+}
+
+export const resetExercise = async (req: Request, res: Response, next: NextFunction) => {
+    const userId = req.body.userId;
+    const exerciseId = req.params.exerciseId;
+
+    const usersExercise = await UserExercise.findOne({where: {userID: userId, exerciseID: exerciseId}});
+    if (!usersExercise) {
+        return next(new AppError('User exercise not found', 404))
+    }
+
+    usersExercise.completed = false;
+    usersExercise.duration = null;
+    const savedUserExercise = await usersExercise.save();
+
+    return res.status(200).json({
+        message: `User exercise ${savedUserExercise.id} has been reset`
     });
 }
 
