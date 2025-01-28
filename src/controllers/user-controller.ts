@@ -7,6 +7,7 @@ import {JWT_EXPIRATION, JWT_SECRET, SALT} from "../utils/constants";
 import {translate} from "../config/helpers";
 import {MESSAGE} from "../utils/enums";
 const { User } = models;
+import {validationResult} from 'express-validator';
 
 /* --------------------------    ADMIN CONTROLLERS    ------------------------------*/
 export const getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
@@ -70,6 +71,11 @@ export const getCurrentUserDetail = async (req: Request, res: Response, next: Ne
 /* --------------------------   PUBLIC CONTROLLERS    ------------------------------*/
 
 export const registerNewUser = async (req: Request, res: Response, next: NextFunction) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).json({errors: errors.array()});
+    }
+
     const password = await bcrypt.hash(req.body.password, SALT);
     const savedUser = await User.create({
         ...req.body,
@@ -83,6 +89,10 @@ export const registerNewUser = async (req: Request, res: Response, next: NextFun
 }
 
 export const login = async (req: Request, res: Response, next: NextFunction) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).json({errors: errors.array()});
+    }
     const user = await User.findOne({where: {email: req.body.email}})
     if (!user) {
         return next(

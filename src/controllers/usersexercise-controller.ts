@@ -3,10 +3,15 @@ import { models } from '../db';
 import AppError from "../types/custom";
 import {translate} from "../config/helpers";
 import {MESSAGE} from "../utils/enums";
+import {validationResult} from 'express-validator';
 
 const {UserExercise, Exercise} = models;
 
 export const completeExercise = async (req: Request, res: Response, next: NextFunction) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).json({errors: errors.array()});
+    }
     const userId = req.body.userId;
     const exerciseId = req.params.exerciseId;
 

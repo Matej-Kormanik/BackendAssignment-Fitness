@@ -4,6 +4,7 @@ import AppError from "../types/custom";
 import {FindOptions, Op} from "sequelize";
 import {translate} from "../config/helpers";
 import {MESSAGE} from "../utils/enums";
+import {validationResult} from 'express-validator';
 
 const {Exercise, Program} = models;
 
@@ -42,6 +43,10 @@ export const getAllExercises = async (req: Request, res: Response, next: NextFun
 }
 
 export const createExercise = async (req: Request, res: Response, next: NextFunction) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).json({errors: errors.array()})
+    }
     const savedExercises = await Exercise.create({
         ...req.body
     });
