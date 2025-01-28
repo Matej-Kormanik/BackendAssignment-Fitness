@@ -7,9 +7,6 @@ const router: Router = Router()
 
 export default () => {
 
-	// USER API
-
-
 	// ADMIN API
 	router.get('/', authenticated, isAdmin, getAllExercises);
 	router.post('/', authenticated, isAdmin, createExercise);

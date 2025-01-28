@@ -1,17 +1,36 @@
 import {NextFunction, Request, Response} from "express";
 import { models } from '../db';
 import AppError from "../types/custom";
+import {FindOptions} from "sequelize";
 const {Exercise, Program} = models;
 
 
 
 export const getAllExercises = async (req: Request, res: Response, next: NextFunction) => {
-    const exercises = await Exercise.findAll({
-        include: [{model: Program, as: 'program'}]
-    })
+    const page = req.query.page ?? 1;
+    const limit = req.query.limit ?? 10;
+    const programID = req.query.programID;
+
+    const options: FindOptions = {
+        include: [{model: Program, as: 'program'}],
+        limit: +limit,
+        offset: (+page - 1) * +limit,
+    };
+    if (programID) {
+        options.where = {programID};
+    }
+
+    const totalCount = await Exercise.count({
+        where: programID ? { programID } : undefined
+    });
+
+    const exercises = await Exercise.findAll(options);
 
     return res.json({
-        data: exercises,
+        exercises,
+        totalCount,
+        page,
+        limit,
         message: 'List of exercises'
     })
 }
