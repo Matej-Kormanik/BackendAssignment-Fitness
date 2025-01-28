@@ -1,0 +1,16 @@
+{
+  "exercise_list": "Zoznam cvičení",
+  "exercise_created": "Cvičenie úspešne vytvorené",
+  "exercise_updated": "Cvičenie úspešne zmenené",
+  "exercise_deleted": "Cvičenie úspešne vymazané",
+  "exercise_not_found": "Cvičenie nebolo nájdené",
+  "exercise_completed": "Cvičenie úspešne dokončené"
+
+  "user_not_found": "Použivateľ sa nenašiel",
+  "incorrect_password": "Nesprávne heslo",
+  "user_logged_in": "Použivateľ prihlásený",
+  "user_created": "Použivateľ úspešne vytvorený",
+  "user_updated": "Použivateľ úspešne zmenený",
+  "user_list": "Zoznam použivateľov"
+
+}

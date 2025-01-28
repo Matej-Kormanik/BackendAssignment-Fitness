@@ -1,9 +1,11 @@
 import {NextFunction, Request, Response} from "express";
-import { models } from '../db';
+import {models} from '../db';
 import AppError from "../types/custom";
-import {FindOptions} from "sequelize";
+import {FindOptions, Op} from "sequelize";
+import {translate} from "../config/helpers";
+import {MESSAGE} from "../utils/enums";
+
 const {Exercise, Program} = models;
-const { Op } = require('sequelize');
 
 
 export const getAllExercises = async (req: Request, res: Response, next: NextFunction) => {
@@ -35,7 +37,7 @@ export const getAllExercises = async (req: Request, res: Response, next: NextFun
         totalCount,
         page,
         totalPages: Math.ceil(totalCount / +limit),
-        message: 'List of exercises'
+        message: translate(MESSAGE.EXERCISE_LIST, req.body.language)
     })
 }
 
@@ -46,14 +48,16 @@ export const createExercise = async (req: Request, res: Response, next: NextFunc
 
     return res.status(201).json({
         exerciseId: savedExercises.id,
-        message: 'Exercise created successfully'
+        message: translate(MESSAGE.EXERCISE_CREATED, req.body.language)
     });
 }
 
 export const updateExercise = async (req: Request, res: Response, next: NextFunction) => {
     const exercise = await Exercise.findByPk(req.params.exerciseId);
     if (!exercise) {
-        return next(new AppError('Exercise not found', 404));
+        return next(
+            new AppError(translate(MESSAGE.EXERCISE_NOT_FOUND, req.body.language), 404)
+        );
     }
     exercise.name = req.body.name ?? exercise.name;
     exercise.programID = req.body.programID ?? exercise.programID;
@@ -62,19 +66,21 @@ export const updateExercise = async (req: Request, res: Response, next: NextFunc
 
     return res.status(200).json({
         exercise: updatedExercise,
-        message: 'Exercise updated successfully'
+        message: translate(MESSAGE.EXERCISE_UPDATED, req.body.language)
     });
 }
 
 export const deleteExercise = async (req: Request, res: Response, next: NextFunction) => {
     const exercise = await Exercise.findByPk(req.params.exerciseId);
     if (!exercise) {
-        return next(new AppError('Exercise not found', 404));
+        return next(
+            new AppError(translate(MESSAGE.EXERCISE_NOT_FOUND, req.body.language), 404)
+        );
     }
     await exercise.destroy();
 
     return res.status(200).json({
-        message: 'Exercise deleted successfully'
+        message: translate(MESSAGE.EXERCISE_DELETED, req.body.language)
     });
 }
 

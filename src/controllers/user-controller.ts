@@ -3,7 +3,9 @@ import { models } from '../db';
 import bcrypt from 'bcryptjs';
 import AppError from "../types/custom";
 import jwt from 'jsonwebtoken';
-import {JWT_SECRET, SALT} from "../utils/constants";
+import {JWT_EXPIRATION, JWT_SECRET, SALT} from "../utils/constants";
+import {translate} from "../config/helpers";
+import {MESSAGE} from "../utils/enums";
 const { User } = models;
 
 /* --------------------------    ADMIN CONTROLLERS    ------------------------------*/
@@ -11,14 +13,14 @@ export const getAllUsers = async (req: Request, res: Response, next: NextFunctio
     const users = await User.findAll();
     return res.status(200).json({
         users: users,
-        message: 'List of users'
+        message: translate(MESSAGE.USER_LIST, req.body.language)
     });
 }
 
 export const getUserDetail = async (req: Request, res: Response, next: NextFunction) => {
     const user = await User.findByPk(req.params.userId);
     if (!user) {
-        return next(new AppError('User not found', 404));
+        return next(new AppError(translate(MESSAGE.USER_NOT_FOUND, req.body.language), 404));
     }
     return res.status(200).json({
         user: user
@@ -28,7 +30,7 @@ export const getUserDetail = async (req: Request, res: Response, next: NextFunct
 export const updateUser = async (req: Request, res: Response, next: NextFunction) => {
     const user = await User.findByPk(req.params.userId);
     if (!user) {
-        return next(new AppError('User not found', 404));
+        return next(new AppError(translate(MESSAGE.USER_NOT_FOUND, req.body.language), 404));
     }
     user.name = req.body.name?? user.name;
     user.surname = req.body.surname?? user.surname;
@@ -39,7 +41,7 @@ export const updateUser = async (req: Request, res: Response, next: NextFunction
 
     return res.status(200).json({
         user: updatedUser,
-        message: 'User updated successfully'
+        message: translate(MESSAGE.USER_UPDATED, req.body.language)
     });
 }
 
@@ -57,7 +59,9 @@ export const getCurrentUserDetail = async (req: Request, res: Response, next: Ne
         attributes: ['name', 'surname', 'age', 'nickName']
     });
     if (!currentUser) {
-        return next(new AppError('User not found', 404));
+        return next(
+            new AppError(translate(MESSAGE.USER_NOT_FOUND, req.body.language), 404)
+        );
     }
 
     return res.status(200).json({currentUser});
@@ -74,29 +78,33 @@ export const registerNewUser = async (req: Request, res: Response, next: NextFun
 
     return res.status(201).json({
         userId: savedUser.id,
-        message: 'User created successfully'
+        message: translate(MESSAGE.USER_CREATED, req.body.language)
     })
 }
 
 export const login = async (req: Request, res: Response, next: NextFunction) => {
     const user = await User.findOne({where: {email: req.body.email}})
     if (!user) {
-        return next(new AppError('User not found', 404));
+        return next(
+            new AppError(translate(MESSAGE.USER_NOT_FOUND, req.body.language), 404)
+        );
     }
 
     const pwdMatches = await bcrypt.compare(req.body.password, user.password);
     if (!pwdMatches) {
-        return next(new AppError('Incorrect password', 401));
+        return next(
+            new AppError(translate(MESSAGE.INVALID_PWD, req.body.language), 401)
+        );
     }
 
     const token = jwt.sign({
         email: user.email,
         userId: user.id,
         role: user.role
-    }, JWT_SECRET, {expiresIn: '1h'});
+    }, JWT_SECRET, {expiresIn: JWT_EXPIRATION});
 
     return res.status(200).json({
         token,
-        message: 'User logged in'
+        message: translate(MESSAGE.USER_LOGGED, req.body.language)
     });
 }

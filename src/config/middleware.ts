@@ -48,3 +48,13 @@ export const isUser = (req: Request, res: Response, next: NextFunction) => {
     }
     next();
 }
+
+export const setLanguage = (req: Request, res: Response, next: NextFunction) => {
+    const language = req.headers['language'];
+    if (language && (language === 'en' || language === 'sk')) {
+        req.body.language = language;
+    } else {
+        req.body.language = 'en';
+    }
+    next();
+};

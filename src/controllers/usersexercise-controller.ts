@@ -1,10 +1,10 @@
 import {NextFunction, Request, Response} from "express";
 import { models } from '../db';
 import AppError from "../types/custom";
+import {translate} from "../config/helpers";
+import {MESSAGE} from "../utils/enums";
 
 const {UserExercise, Exercise} = models;
-
-
 
 export const completeExercise = async (req: Request, res: Response, next: NextFunction) => {
     const userId = req.body.userId;
@@ -14,7 +14,7 @@ export const completeExercise = async (req: Request, res: Response, next: NextFu
     if (!usersExercise) {
         const exercise = await Exercise.findByPk(exerciseId);
         if (!exercise) {
-            return next(new AppError('Exercise not found', 404))
+            return next(new AppError(translate(MESSAGE.EXERCISE_NOT_FOUND, req.body.language), 404))
         }
         const createdUserExercise = await UserExercise.create({
             userID: userId,
@@ -24,7 +24,7 @@ export const completeExercise = async (req: Request, res: Response, next: NextFu
         });
         return res.status(201).json({
             exercise: createdUserExercise,
-            message: 'User exercise completed'
+            message: translate(MESSAGE.EXERCISE_COMPLETED, req.body.language)
         });
     }
 
@@ -34,7 +34,7 @@ export const completeExercise = async (req: Request, res: Response, next: NextFu
 
     return res.status(200).json({
         exercise: savedUserExercise,
-        message: 'User exercise updated successfully'
+        message: translate(MESSAGE.EXERCISE_UPDATED, req.body.language)
     });
 }
 
@@ -44,7 +44,7 @@ export const resetExercise = async (req: Request, res: Response, next: NextFunct
 
     const usersExercise = await UserExercise.findOne({where: {userID: userId, exerciseID: exerciseId}});
     if (!usersExercise) {
-        return next(new AppError('User exercise not found', 404))
+        return next(new AppError(translate(MESSAGE.EXERCISE_NOT_FOUND, req.body.language), 404))
     }
 
     usersExercise.completed = false;
@@ -65,6 +65,6 @@ export const getCompletedExercises = async (req: Request, res: Response, next: N
 
     return res.json({
         data: completedExercises,
-        message: 'List of completed exercises'
+        message: translate(MESSAGE.EXERCISE_LIST, req.body.language)
     })
 }

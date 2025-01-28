@@ -1,0 +1,15 @@
+{
+  "exercise_list": "List of exercises",
+  "exercise_created": "Exercise successfully created",
+  "exercise_updated": "Exercise successfully updated",
+  "exercise_deleted": "Exercise successfully deleted",
+  "exercise_not_found": "Exercise not found",
+  "exercise_completed": "'User exercise completed'",
+
+  "user_not_found": "User not found",
+  "incorrect_password": "Invalid password",
+  "user_logged_in": "User logged in",
+  "user_created": "User successfully created",
+  "user_updated": "User successfully updated",
+  "user_list": "List of users"
+}
