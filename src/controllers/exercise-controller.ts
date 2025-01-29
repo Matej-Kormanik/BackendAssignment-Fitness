@@ -45,7 +45,9 @@ export const getAllExercises = async (req: Request, res: Response, next: NextFun
 export const createExercise = async (req: Request, res: Response, next: NextFunction) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(422).json({errors: errors.array()})
+        return next(
+            new AppError(translate(MESSAGE.INVALID_INPUT, req.body.language), 422, errors.array())
+        )
     }
     const savedExercises = await Exercise.create({
         ...req.body

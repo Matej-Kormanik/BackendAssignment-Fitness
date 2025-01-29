@@ -7,11 +7,13 @@ import {USER_ROLE} from "../utils/enums";
 export const errorMiddleware = (err: AppError, req: Request, res: Response, next: NextFunction) => {
     const status = err.statusCode ?? 500;
     const message = err.message ?? 'Something went wrong';
+    let body = {message, status};
+    if (err.errors) {
+        // @ts-ignore
+        body.errors = err.errors;
+    }
 
-    return res.status(status).json({
-        message: message,
-        status: status
-    })
+    return res.status(status).json(body)
 }
 
 export const authenticated = (req: Request, res: Response, next: NextFunction) => {

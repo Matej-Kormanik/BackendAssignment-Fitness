@@ -19,9 +19,11 @@ export enum MESSAGE {
 	EXERCISE_COMPLETED = "exercise_completed",
 
 	USER_NOT_FOUND= "user_not_found",
-	INVALID_PWD= "incorrect_password",
 	USER_LOGGED= "user_logged_in",
 	USER_CREATED = "user_created",
 	USER_UPDATED = "user_updated",
 	USER_LIST = "user_list",
+
+	INVALID_PWD= "incorrect_password",
+	INVALID_INPUT = "invalid_input",
 }

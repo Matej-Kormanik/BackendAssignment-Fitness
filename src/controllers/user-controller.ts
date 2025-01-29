@@ -73,7 +73,9 @@ export const getCurrentUserDetail = async (req: Request, res: Response, next: Ne
 export const registerNewUser = async (req: Request, res: Response, next: NextFunction) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(422).json({errors: errors.array()});
+        return next(
+            new AppError(translate(MESSAGE.INVALID_INPUT, req.body.language), 422, errors.array())
+        );
     }
 
     const password = await bcrypt.hash(req.body.password, SALT);
@@ -91,7 +93,9 @@ export const registerNewUser = async (req: Request, res: Response, next: NextFun
 export const login = async (req: Request, res: Response, next: NextFunction) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(422).json({errors: errors.array()});
+        return next(
+            new AppError(translate(MESSAGE.INVALID_INPUT, req.body.language), 422, errors.array())
+        );
     }
     const user = await User.findOne({where: {email: req.body.email}})
     if (!user) {

@@ -11,5 +11,7 @@
   "user_logged_in": "User logged in",
   "user_created": "User successfully created",
   "user_updated": "User successfully updated",
-  "user_list": "List of users"
+  "user_list": "List of users",
+
+  "invalid_input": "Invalid input"
 }

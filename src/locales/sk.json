@@ -11,5 +11,7 @@
   "user_logged_in": "Použivateľ prihlásený",
   "user_created": "Použivateľ úspešne vytvorený",
   "user_updated": "Použivateľ úspešne zmenený",
-  "user_list": "Zoznam použivateľov"
+  "user_list": "Zoznam použivateľov",
+
+  "invalid_input": "Nesprávne vstupné data"
 }
