@@ -23,6 +23,7 @@ export enum MESSAGE {
 	USER_CREATED = "user_created",
 	USER_UPDATED = "user_updated",
 	USER_LIST = "user_list",
+	ALREADY_EXIST = "email_already_exists",
 
 	INVALID_PWD= "incorrect_password",
 	INVALID_INPUT = "invalid_input",

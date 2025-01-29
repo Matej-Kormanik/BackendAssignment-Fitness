@@ -19,7 +19,7 @@ const registerUserValidation = [
     body('password').trim().isLength({min: 8}).withMessage('Password must be at least 8 characters long'),
     body('name').trim().isLength(({min: 3})).withMessage('name is required'),
     body('surname').trim().isLength(({min: 3})).withMessage('surname is required'),
-    body('nickname').trim().isLength(({min: 3})).withMessage('nickname is required'),
+    body('nickName').trim().isLength(({min: 3})).withMessage('nickName is required'),
     body('age').trim().isNumeric().withMessage('age must be a number'),
     body('role').trim().isIn([USER_ROLE.USER, USER_ROLE.ADMIN]).withMessage('Invalid role')
 ];

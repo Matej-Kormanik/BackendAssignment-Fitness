@@ -80,6 +80,12 @@ export const registerNewUser = async (req: Request, res: Response, next: NextFun
             new AppError(translate(MESSAGE.INVALID_INPUT, req.body.language), 422, errors.array())
         );
     }
+    const existingUser = await User.findOne({where: {email: req.body.email}});
+    if (existingUser) {
+        return next(
+            new AppError(translate(MESSAGE.ALREADY_EXIST, req.body.language), 409)
+        );
+    }
 
     const password = await bcrypt.hash(req.body.password, SALT);
     const savedUser = await User.create({
