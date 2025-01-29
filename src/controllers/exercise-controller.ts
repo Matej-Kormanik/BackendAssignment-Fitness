@@ -2,7 +2,7 @@ import {NextFunction, Request, Response} from "express";
 import {models} from '../db';
 import AppError from "../types/custom";
 import {FindOptions, Op} from "sequelize";
-import {translate} from "../config/helpers";
+import {logError, translate} from "../config/helpers";
 import {MESSAGE} from "../utils/enums";
 import {validationResult} from 'express-validator';
 
@@ -45,6 +45,7 @@ export const getAllExercises = async (req: Request, res: Response, next: NextFun
 export const createExercise = async (req: Request, res: Response, next: NextFunction) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
+        logError('Invalid request', req.url, errors);
         return next(
             new AppError(translate(MESSAGE.INVALID_INPUT, req.body.language), 422, errors.array())
         )
@@ -62,6 +63,7 @@ export const createExercise = async (req: Request, res: Response, next: NextFunc
 export const updateExercise = async (req: Request, res: Response, next: NextFunction) => {
     const exercise = await Exercise.findByPk(req.params.exerciseId);
     if (!exercise) {
+        logError('exercise not found', req.url);
         return next(
             new AppError(translate(MESSAGE.EXERCISE_NOT_FOUND, req.body.language), 404)
         );
@@ -80,6 +82,7 @@ export const updateExercise = async (req: Request, res: Response, next: NextFunc
 export const deleteExercise = async (req: Request, res: Response, next: NextFunction) => {
     const exercise = await Exercise.findByPk(req.params.exerciseId);
     if (!exercise) {
+        logError('exercise not found', req.url);
         return next(
             new AppError(translate(MESSAGE.EXERCISE_NOT_FOUND, req.body.language), 404)
         );

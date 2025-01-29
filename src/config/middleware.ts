@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import AppError from "../types/custom";
 import {JWT_SECRET} from "../utils/constants";
 import {MESSAGE, USER_ROLE} from "../utils/enums";
-import {translate} from "./helpers";
+import {logError, translate} from "./helpers";
 
 type ErrorBody = {
     message: string,
@@ -33,6 +33,7 @@ export const authenticated = (req: Request, res: Response, next: NextFunction) =
     try {
         decoded = jwt.verify(token, JWT_SECRET);
     } catch (e) {
+        logError('Error verifying token',req.url, e.message);
         throw new AppError(translate(MESSAGE.SMTH_WENT_WRONG, req.body.language), 500);
     }
     if (!decoded) {

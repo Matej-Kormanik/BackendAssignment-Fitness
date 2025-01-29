@@ -4,7 +4,7 @@ import bcrypt from 'bcryptjs';
 import AppError from "../types/custom";
 import jwt from 'jsonwebtoken';
 import {JWT_EXPIRATION, JWT_SECRET, SALT} from "../utils/constants";
-import {translate} from "../config/helpers";
+import {logError, translate} from "../config/helpers";
 import {MESSAGE} from "../utils/enums";
 const { User } = models;
 import {validationResult} from 'express-validator';
@@ -21,6 +21,7 @@ export const getAllUsers = async (req: Request, res: Response, next: NextFunctio
 export const getUserDetail = async (req: Request, res: Response, next: NextFunction) => {
     const user = await User.findByPk(req.params.userId);
     if (!user) {
+        logError('user not found', req.originalUrl, req.params.userId);
         return next(new AppError(translate(MESSAGE.USER_NOT_FOUND, req.body.language), 404));
     }
     return res.status(200).json({
@@ -31,6 +32,7 @@ export const getUserDetail = async (req: Request, res: Response, next: NextFunct
 export const updateUser = async (req: Request, res: Response, next: NextFunction) => {
     const user = await User.findByPk(req.params.userId);
     if (!user) {
+        logError('user not found', req.originalUrl, req.params.userId);
         return next(new AppError(translate(MESSAGE.USER_NOT_FOUND, req.body.language), 404));
     }
     user.name = req.body.name?? user.name;
@@ -73,6 +75,7 @@ export const getCurrentUserDetail = async (req: Request, res: Response, next: Ne
 export const registerNewUser = async (req: Request, res: Response, next: NextFunction) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
+        logError('Invalid request', req.originalUrl, errors);
         return next(
             new AppError(translate(MESSAGE.INVALID_INPUT, req.body.language), 422, errors.array())
         );
