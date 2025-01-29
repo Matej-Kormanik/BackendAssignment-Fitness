@@ -13,5 +13,8 @@
   "user_updated": "User successfully updated",
   "user_list": "List of users",
 
-  "invalid_input": "Invalid input"
+  "invalid_input": "Invalid input",
+  "smth_wrong": "Something went wrong",
+  "not_authenticated": "Not Authenticated",
+  "not_authorized":  "Not Authorized to perform this action"
 }

@@ -2,7 +2,8 @@ import {Request, Response, NextFunction,} from 'express'
 import jwt from 'jsonwebtoken';
 import AppError from "../types/custom";
 import {JWT_SECRET} from "../utils/constants";
-import {USER_ROLE} from "../utils/enums";
+import {MESSAGE, USER_ROLE} from "../utils/enums";
+import {translate} from "./helpers";
 
 type ErrorBody = {
     message: string,
@@ -12,7 +13,7 @@ type ErrorBody = {
 
 export const errorMiddleware = (err: AppError, req: Request, res: Response, next: NextFunction) => {
     const status = err.statusCode ?? 500;
-    const message = err.message ?? 'Something went wrong';
+    const message = err.message ?? translate(MESSAGE.SMTH_WENT_WRONG, req.body.language);
     let body: ErrorBody = {message, status};
     if (err.errors) {
         body.errors = err.errors;
@@ -24,7 +25,7 @@ export const errorMiddleware = (err: AppError, req: Request, res: Response, next
 export const authenticated = (req: Request, res: Response, next: NextFunction) => {
     const authHeader = req.get('Authorization');
     if (!authHeader) {
-        throw new AppError('Not Authenticated', 401);
+        throw new AppError(translate(MESSAGE.NOT_AUTHENTICATED, req.body.language), 401);
     }
 
     const token = authHeader.split(' ')[1];
@@ -32,10 +33,10 @@ export const authenticated = (req: Request, res: Response, next: NextFunction) =
     try {
         decoded = jwt.verify(token, JWT_SECRET);
     } catch (e) {
-        throw new AppError('Something went wrong', 500);
+        throw new AppError(translate(MESSAGE.SMTH_WENT_WRONG, req.body.language), 500);
     }
     if (!decoded) {
-        throw new AppError('Not Authenticated', 401);
+        throw new AppError(translate(MESSAGE.NOT_AUTHENTICATED, req.body.language), 401);
     }
 
     req.body.userId = decoded.userId;
@@ -45,13 +46,13 @@ export const authenticated = (req: Request, res: Response, next: NextFunction) =
 
 export const isAdmin = (req: Request, res: Response, next: NextFunction) => {
     if (req.body.role !== USER_ROLE.ADMIN.toString()) {
-        throw new AppError('Not authorized to perform this action', 403);
+        throw new AppError(translate(MESSAGE.NOT_AUTHORIZED, req.body.language), 403);
     }
     next();
 }
 export const isUser = (req: Request, res: Response, next: NextFunction) => {
     if (req.body.role !== USER_ROLE.USER.toString()) {
-        throw new AppError('Not authorized to perform this action', 403);
+        throw new AppError(translate(MESSAGE.NOT_AUTHORIZED, req.body.language), 403);
     }
     next();
 }

@@ -26,4 +26,8 @@ export enum MESSAGE {
 
 	INVALID_PWD= "incorrect_password",
 	INVALID_INPUT = "invalid_input",
+
+	SMTH_WENT_WRONG = "smth_wrong",
+	NOT_AUTHENTICATED = "not_authenticated",
+	NOT_AUTHORIZED = "not_authorized"
 }

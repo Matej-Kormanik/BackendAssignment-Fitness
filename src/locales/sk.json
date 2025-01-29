@@ -13,5 +13,8 @@
   "user_updated": "Použivateľ úspešne zmenený",
   "user_list": "Zoznam použivateľov",
 
-  "invalid_input": "Nesprávne vstupné data"
+  "invalid_input": "Nesprávne vstupné data",
+  "smth_wrong": "Niečo sa pokazilo",
+  "not_authenticated": "Nie je autentifikovaný",
+  "not_authorized":  "Nemáte oprávnenie vykonať túto akciu"
 }
