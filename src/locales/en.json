@@ -5,6 +5,7 @@
   "exercise_deleted": "Exercise successfully deleted",
   "exercise_not_found": "Exercise not found",
   "exercise_completed": "'User exercise completed'",
+  "program_list": "List of programs",
 
   "user_not_found": "User not found",
   "incorrect_password": "Invalid password",
@@ -16,5 +17,6 @@
   "invalid_input": "Invalid input",
   "smth_wrong": "Something went wrong",
   "not_authenticated": "Not Authenticated",
-  "not_authorized":  "Not Authorized to perform this action"
+  "not_authorized":  "Not Authorized to perform this action",
+  "email_already_exists": "Email already exists"
 }

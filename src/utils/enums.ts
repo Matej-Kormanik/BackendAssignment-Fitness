@@ -17,6 +17,7 @@ export enum MESSAGE {
 	EXERCISE_DELETED = 'exercise_deleted',
 	EXERCISE_NOT_FOUND = 'exercise_not_found',
 	EXERCISE_COMPLETED = "exercise_completed",
+	PROGRAM_LIST = "program_list",
 
 	USER_NOT_FOUND= "user_not_found",
 	USER_LOGGED= "user_logged_in",

@@ -5,6 +5,7 @@
   "exercise_deleted": "Cvičenie úspešne vymazané",
   "exercise_not_found": "Cvičenie nebolo nájdené",
   "exercise_completed": "Cvičenie úspešne dokončené",
+  "program_list": "Zoznam programov",
 
   "user_not_found": "Použivateľ sa nenašiel",
   "incorrect_password": "Nesprávne heslo",
@@ -16,5 +17,6 @@
   "invalid_input": "Nesprávne vstupné data",
   "smth_wrong": "Niečo sa pokazilo",
   "not_authenticated": "Nie je autentifikovaný",
-  "not_authorized":  "Nemáte oprávnenie vykonať túto akciu"
+  "not_authorized":  "Nemáte oprávnenie vykonať túto akciu",
+  "email_already_exists": "Uživateľ s týmto emailom už existuje"
 }

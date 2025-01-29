@@ -5,12 +5,13 @@
 
 ### Usage guide
 1. Create a new user: *POST: localhost:8000/users*
-2. login *POST: localhost:8000/users/login*  
+2. login *POST: localhost:8000/users/login*
+3. Save the JWT token from the response
+4. Use the JWT token in following requests in header *Authorization*  
+   example value: Bearer JWT_TOKEN  
 
-These are only 2 public apis.  
-Every other API requires JWT token returned after logging in.
-3. Use the JWT token in following requests in header *Authorization*  
-    example value: Bearer JWT_TOKEN  
+Register and login are only 2 public apis.  
+Every other API requires JWT token.
 
 
 ### Possible improvements
@@ -19,8 +20,10 @@ Every other API requires JWT token returned after logging in.
 - integration tests
 - documentation
 - API docs. e.g. Swagger
+- security: https, ssl,
+- implementation of loggingOut e.g. blacklisting JWT tokens
 - Dockerization
-- Scalability. e.g. K8S
+- Scalability. e.g. K8s
 - Web app and mobile app :)
 
 ---

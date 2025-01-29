@@ -1,24 +1,12 @@
-import {
-	Router,
-	Request,
-	Response,
-	NextFunction
-} from 'express'
-
-import { models } from '../db'
+import {Router} from 'express'
+import {authenticated, isUser} from "../config/middleware";
+import {getAllPrograms} from "../controllers/program-controller";
 
 const router: Router = Router()
 
-const {Program} = models
 
 export default () => {
-	router.get('/', async (req: Request, res: Response, next: NextFunction) => {
-		const programs = await Program.findAll()
-		return res.json({
-			data: programs,
-			message: 'List of programs'
-		})
-	})
+	router.get('/', authenticated, isUser, getAllPrograms)
 
-	return router
+	return router;
 }

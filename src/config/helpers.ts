@@ -24,6 +24,6 @@ const logger = winston.createLogger({
 });
 
 export const logError = (message: string, path: string, error?: any) => {
-    logger.error(path, message, error);
+    logger.error(message, path, error);
 };
 
