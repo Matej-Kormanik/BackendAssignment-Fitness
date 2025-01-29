@@ -1,5 +1,30 @@
 # Fitness app - assignment
 
+---
+## Solution - Matej
+
+### Usage guide
+1. Create a new user: *POST: localhost:8000/users*
+2. login *POST: localhost:8000/users/login*  
+
+These are only 2 public apis.  
+Every other API requires JWT token returned after logging in.
+3. Use the JWT token in following requests in header *Authorization*  
+    example value: Bearer JWT_TOKEN  
+
+
+### Possible improvements
+
+- Unit tests
+- integration tests
+- documentation
+- API docs. e.g. Swagger
+- Dockerization
+- Scalability. e.g. K8S
+- Web app and mobile app :)
+
+---
+
 ### Requirements
 
 - node.js ^12.14.0
