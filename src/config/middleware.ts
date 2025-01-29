@@ -4,12 +4,17 @@ import AppError from "../types/custom";
 import {JWT_SECRET} from "../utils/constants";
 import {USER_ROLE} from "../utils/enums";
 
+type ErrorBody = {
+    message: string,
+    status: number,
+    errors?: any[]
+}
+
 export const errorMiddleware = (err: AppError, req: Request, res: Response, next: NextFunction) => {
     const status = err.statusCode ?? 500;
     const message = err.message ?? 'Something went wrong';
-    let body = {message, status};
+    let body: ErrorBody = {message, status};
     if (err.errors) {
-        // @ts-ignore
         body.errors = err.errors;
     }
 
